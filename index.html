@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Onze Store | Camisas de Futebol</title>
+  <meta name="description" content="Onze Store - Camisas de futebol">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    body {
+      background: #f5f5f5;
+      color: #111;
+    }
+    /* HEADER */
+    header {
+      background: #080808;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 3px 15px rgba(0,0,0,.2);
+    }
+    .header {
+      max-width: 1200px;
+      margin: auto;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .logo {
+      font-size: 25px;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+    .logo span {
+      color: #18c964;
+    }
+    .cart-button {
+      border: none;
+      background: #18c964;
+      color: white;
+      padding: 11px 17px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    /* HERO */
+    .hero {
+      min-height: 420px;
+      background:
+        linear-gradient(rgba(0,0,0,.68), rgba(0,0,0,.68)),
+        url("https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=1600&q=80")
+        center/cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      padding: 40px 20px;
+    }
+    .hero-content {
+      max-width: 750px;
+    }
+    .hero h1 {
+      font-size: clamp(40px, 7vw, 75px);
+      margin-bottom: 15px;
+      font-weight: 900;
+    }
+    .hero h1 span {
+      color: #18c964;
+    }
+    .hero p {
+      font-size: 19px;
+      color: #ddd;
+      margin-bottom: 25px;
+    }
+    .hero-button {
+      display: inline-block;
+      background: #18c964;
+      color: white;
+      text-decoration: none;
+      padding: 14px 25px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+    /* CONTEÚDO */
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+    .section-title {
+      font-size: 30px;
+      margin-bottom: 20px;
+    }
+    /* BUSCA */
+    .search-box {
+      margin-bottom: 25px;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+      outline: none;
+    }
+    .search-box input:focus {
+      border-color: #18c964;
+    }
+    /* FILTROS */
+    .filters {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      margin-bottom: 25px;
+    }
+    .filter {
+      background: white;
+      border: 1px solid #ddd;
+      padding: 10px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .filter.active,
+    .filter:hover {
+      background: #18c964;
+      border-color: #18c964;
+      color: white;
+    }
+    /* PRODUTOS */
+    .products {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .product {
+      background: white;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0,0,0,.07);
+      transition: .25s;
+    }
+    .product:hover {
+      transform: translateY(-5px);
+    }
+    .product img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      display: block;
+    }
+    .product-info {
+      padding: 16px;
+    }
+    .category {
+      font-size: 12px;
+      color: #777;
+      text-transform: uppercase;
+    }
+    .product h3 {
+      margin: 7px 0;
+      font-size: 18px;
+    }
+    .price {
+      color: #18a957;
+      font-size: 21px;
+      font-weight: 900;
+      margin: 10px 0;
+    }
+    .sizes {
+      display: flex;
+      gap: 6px;
+      margin: 12px 0;
+    }
+    .size {
+      border: 1px solid #ddd;
+      background: white;
+      padding: 7px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .size.selected {
+      background: #111;
+      color: white;
+    }
+    .add-button {
+      width: 100%;
+      border: none;
+      background: #111;
+      color: white;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .add-button:hover {
+      background: #18c964;
+    }
+    /* CARRINHO */
+    .cart {
+      position: fixed;
+      right: -420px;
+      top: 0;
+      width: 390px;
+      max-width: 95%;
+      height: 100vh;
+      background: white;
+      z-index: 2000;
+      box-shadow: -5px 0 25px rgba(0,0,0,.2);
+      transition: .3s;
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+    }
+    .cart.open {
+      right: 0;
+    }
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .close-cart {
+      border: none;
+      background: none;
+      font-size: 25px;
+      cursor: pointer;
+    }
+    .cart-items {
+      flex: 1;
+      overflow-y: auto;
+    }
+    .cart-item {
+      border-bottom: 1px solid #eee;
+      padding: 12px 0;
+    }
+    .cart-item h4 {
+      margin-bottom: 5px;
+    }
+    .remove {
+      margin-top: 7px;
+      color: #e53935;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .cart-total {
+      border-top: 1px solid #ddd;
+      padding-top: 20px;
+    }
+    .total {
+      display: flex;
+      justify-content: space-between;
+      font-size: 21px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .whatsapp {
+      width: 100%;
+      border: none;
+      background: #25D366;
+      color: white;
+      padding: 15px;
+      border-radius: 9px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    /* FOOTER */
+    footer {
+      background: #080808;
+      color: white;
+      text-align: center;
+      padding: 35px 20px;
+      margin-top: 30px;
+    }
+    footer p {
+      color: #aaa;
+      margin-top: 8px;
+    }
+    /* RESPONSIVO */
+    @media (max-width: 1000px) {
+      .products {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    @media (max-width: 700px) {
+      .products {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+      .product img {
+        height: 230px;
+      }
+      .product-info {
+        padding: 12px;
+      }
+      .product h3 {
+        font-size: 15px;
+      }
+      .price {
+        font-size: 18px;
+      }
+      .hero {
+        min-height: 380px;
+      }
+    }
+    @media (max-width: 430px) {
+      .header {
+        padding: 15px;
+      }
+      .logo {
+        font-size: 21px;
+      }
+      .cart-button {
+        padding: 9px 12px;
+      }
+      .products {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .product img {
+        height: 190px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="header">
+      <div class="logo">
+        ONZE <span>STORE</span>
+      </div>
+      <button class="cart-button" onclick="openCart()">
+        🛒 Carrinho (<span id="cartCount">0</span>)
+      </button>
+    </div>
+  </header>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>ONZE <span>STORE</span></h1>
+      <p>
+        Vista a paixão pelo futebol.
+        Encontre sua próxima camisa.
+      </p>
+      <a href="#produtos" class="hero-button">
+        VER CAMISAS
+      </a>
+    </div>
+  </section>
+  <!-- LOJA -->
+  <main class="container" id="produtos">
+    <h2 class="section-title">
+      Nossas camisas
+    </h2>
+    <!-- BUSCA -->
+    <div class="search-box">
+      <input
+        type="text"
+        id="search"
+        placeholder="🔎 Procurar camisa..."
+        oninput="renderProducts()"
+      >
+    </div>
+    <!-- FILTROS -->
+    <div class="filters">
+      <button
+        class="filter active"
+        onclick="setCategory('Todos', this)">
+        Todos
+      </button>
+      <button
+        class="filter"
+        onclick="setCategory('Brasileirão', this)">
+        Brasileirão
+      </button>
+      <button
+        class="filter"
+        onclick="setCategory('Europa', this)">
+        Europa
+      </button>
+      <button
+        class="filter"
+        onclick="setCategory('Seleções', this)">
+        Seleções
+      </button>
+      <button
+        class="filter"
+        onclick="setCategory('Retrô', this)">
+        Retrô
+      </button>
+    </div>
+    <!-- PRODUTOS -->
+    <div class="products" id="products"></div>
+  </main>
+  <!-- CARRINHO -->
+  <aside class="cart" id="cart">
+    <div class="cart-header">
+      <h2>Seu carrinho</h2>
+      <button
+        class="close-cart"
+        onclick="closeCart()">
+        ×
+      </button>
+    </div>
+    <div
+      class="cart-items"
+      id="cartItems">
+    </div>
+    <div class="cart-total">
+      <div class="total">
+        <span>Total</span>
+        <span id="cartTotal">
+          R$ 0,00
+        </span>
+      </div>
+      <button
+        class="whatsapp"
+        onclick="sendWhatsApp()">
+        📲 Finalizar pelo WhatsApp
+      </button>
+    </div>
+  </aside>
+  <!-- FOOTER -->
+  <footer>
+    <strong>ONZE STORE</strong>
+    <p>
+      Camisas de futebol para quem vive o jogo.
+    </p>
+    <p>
+      © 2026 Onze Store
+    </p>
+  </footer>
+  <script>
+    /* =========================================
+       CONFIGURAÇÕES DA LOJA
+    ========================================= */
+    // COLOQUE SEU WHATSAPP AQUI
+    // Exemplo: 5598999999999
+    const whatsapp = "5598999999999";
+    /* =========================================
+       PRODUTOS
+    ========================================= */
+    const products = [
+      {
+        id: 1,
+        name: "Camisa Flamengo 2026",
+        category: "Brasileirão",
+        price: 89.90,
+        image: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 2,
+        name: "Camisa Real Madrid 2026",
+        category: "Europa",
+        price: 99.90,
+        image: "https://images.unsplash.com/photo-1526232761682-d26e03ac148e?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 3,
+        name: "Camisa Barcelona 2026",
+        category: "Europa",
+        price: 99.90,
+        image: "https://images.unsplash.com/photo-1553778263-73a83bab9b0c?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 4,
+        name: "Camisa Brasil 2026",
+        category: "Seleções",
+        price: 89.90,
+        image: "https://images.unsplash.com/photo-1566577739112-5180d4bf9390?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 5,
+        name: "Camisa Retrô 1994",
+        category: "Retrô",
+        price: 79.90,
+        image: "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 6,
+        name: "Camisa Manchester City",
+        category: "Europa",
+        price: 99.90,
+        image: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 7,
+        name: "Camisa São Paulo",
+        category: "Brasileirão",
+        price: 89.90,
+        image: "https://images.unsplash.com/photo-1526232761682-d26e03ac148e?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 8,
+        name: "Camisa Argentina",
+        category: "Seleções",
+        price: 89.90,
+        image: "https://images.unsplash.com/photo-1553778263-73a83bab9b0c?auto=format&fit=crop&w=700&q=80"
+      }
+    ];
+    /* =========================================
+       VARIÁVEIS
+    ========================================= */
+    let cart = [];
+    let currentCategory = "Todos";
+    /* =========================================
+       FORMATAR DINHEIRO
+    ========================================= */
+    function money(value) {
+      return value.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+      });
+    }
+    /* =========================================
+       MOSTRAR PRODUTOS
+    ========================================= */
+    function renderProducts() {
+      const container =
+        document.getElementById("products");
+      const search =
+        document.getElementById("search")
+        .value
+        .toLowerCase();
+      const filtered = products.filter(product => {
+        const categoryMatch =
+          currentCategory === "Todos" ||
+          product.category === currentCategory;
+        const searchMatch =
+          product.name
+            .toLowerCase()
+            .includes(search);
+        return categoryMatch && searchMatch;
+      });
+      container.innerHTML = "";
+      filtered.forEach(product => {
+        const card =
+          document.createElement("div");
+        card.className = "product";
+        card.innerHTML = `
+          <img
+            src="${product.image}"
+            alt="${product.name}"
+          >
+          <div class="product-info">
+            <span class="category">
+              ${product.category}
+            </span>
+            <h3>
+              ${product.name}
+            </h3>
+            <div class="price">
+              ${money(product.price)}
+            </div>
+            <div class="sizes">
+              <button
+                class="size"
+                onclick="selectSize(this)">
+                P
+              </button>
+              <button
+                class="size"
+                onclick="selectSize(this)">
+                M
+              </button>
+              <button
+                class="size"
+                onclick="selectSize(this)">
+                G
+              </button>
+              <button
+                class="size"
+                onclick="selectSize(this)">
+                GG
+              </button>
+            </div>
+            <button
+              class="add-button"
+              onclick="addToCart(${product.id})">
+              Adicionar ao carrinho
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+    /* =========================================
+       TAMANHO
+    ========================================= */
+    function selectSize(button) {
+      const parent =
+        button.parentElement;
+      parent
+        .querySelectorAll(".size")
+        .forEach(btn => {
+          btn.classList.remove("selected");
+        });
+      button.classList.add("selected");
+    }
+    /* =========================================
+       CATEGORIA
+    ========================================= */
+    function setCategory(category, button) {
+      currentCategory = category;
+      document
+        .querySelectorAll(".filter")
+        .forEach(btn => {
+          btn.classList.remove("active");
+        });
+      button.classList.add("active");
+      renderProducts();
+    }
+    /* =========================================
+       ADICIONAR AO CARRINHO
+    ========================================= */
+    function addToCart(id) {
+      const product =
+        products.find(p => p.id === id);
+      cart.push({
+        ...product,
+        size: "M"
+      });
+      updateCart();
+      openCart();
+    }
+    /* =========================================
+       ATUALIZAR CARRINHO
+    ========================================= */
+    function updateCart() {
+      const container =
+        document.getElementById("cartItems");
+      const count =
+        document.getElementById("cartCount");
+      const total =
+        document.getElementById("cartTotal");
+      count.innerText = cart.length;
+      container.innerHTML = "";
+      if (cart.length === 0) {
+        container.innerHTML =
+          "<p>Seu carrinho está vazio.</p>";
+        total.innerText =
+          money(0);
+        return;
+      }
+      let totalValue = 0;
+      cart.forEach((item, index) => {
+        totalValue += item.price;
+        const div =
+          document.createElement("div");
+        div.className = "cart-item";
+        div.innerHTML = `
+          <h4>
+            ${item.name}
+          </h4>
+          <p>
+            Tamanho: ${item.size}
+          </p>
+          <strong>
+            ${money(item.price)}
+          </strong>
+          <br>
+          <button
+            class="remove"
+            onclick="removeItem(${index})">
+            Remover
+          </button>
+        `;
+        container.appendChild(div);
+      });
+      total.innerText =
+        money(totalValue);
+    }
+    /* =========================================
+       REMOVER PRODUTO
+    ========================================= */
+    function removeItem(index) {
+      cart.splice(index, 1);
+      updateCart();
+    }
+    /* =========================================
+       ABRIR CARRINHO
+    ========================================= */
+    function openCart() {
+      document
+        .getElementById("cart")
+        .classList.add("open");
+    }
+    /* =========================================
+       FECHAR CARRINHO
+    ========================================= */
+    function closeCart() {
+      document
+        .getElementById("cart")
+        .classList.remove("open");
+    }
+    /* =========================================
+       WHATSAPP
+    ========================================= */
+    function sendWhatsApp() {
+      if (cart.length === 0) {
+        alert("Seu carrinho está vazio.");
+        return;
+      }
+      let message =
+        "Olá! Quero fazer um pedido na Onze Store:%0A%0A";
+      let total = 0;
+      cart.forEach(item => {
+        message +=
+          `• ${item.name} - ${money(item.price)}%0A`;
+        total += item.price;
+      });
+      message +=
+        `%0ATotal: ${money(total)}%0A%0A`;
+      message +=
+        "Gostaria de saber as formas de pagamento e entrega.";
+      const url =
+        `https://wa.me/${whatsapp}?text=${message}`;
+      window.open(url, "_blank");
+    }
+    /* =========================================
+       INICIALIZAR
+    ========================================= */
+    renderProducts();
+    updateCart();
+  </script>
+</body>
+</html>
